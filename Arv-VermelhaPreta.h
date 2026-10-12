@@ -72,4 +72,14 @@ Nobase* rotacionaEsq(Nobase *raiz);
 
 Nobase* rotacionaDir(Nobase *raiz);
 
+Nobase* moverDirRED(Nobase *raiz);
+
+Nobase* moverEsqRED(Nobase *raiz);
+
+Nobase*  balancear(Nobase *raiz);
+
+Nobase* procuraMenor(Nobase *raiz);
+
+Nobase* removerMenor(Nobase *raiz);
+
 #endif
