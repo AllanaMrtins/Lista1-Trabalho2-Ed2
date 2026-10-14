@@ -10,6 +10,13 @@
 #define QTD_TAMANHOS 3
 #define QTD_FAIXAS   3
 
+#define SUCESSO            1
+#define ERRO_MEMORIA       0
+#define ERRO_REPETIDO      5
+#define ERRO_INEXISTENTE   6
+#define ERRO_ESTOQUE       7
+#define ERRO_COMPRAS      8
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -81,5 +88,89 @@ Nobase*  balancear(Nobase *raiz);
 Nobase* procuraMenor(Nobase *raiz);
 
 Nobase* removerMenor(Nobase *raiz);
+
+Nobase* corrigirInsercao(Nobase *raiz);
+
+void liberar_itens(Item *i);
+
+void liberar_compras(Compra *c);
+
+float preco_unitario(Produto *p, int quantidade);
+
+int adicionar_item(Compra *compra, int codProduto, int quantidade, float valor);
+
+Produto* criarProduto(int codigo, int tipo, int cabelo, int situacao,int tamanho, int estoque, FaixaPreco faixas[]);
+
+Produto* inserirProduto(Produto *raiz, int codigo, int tipo, int cabelo,int situacao, int tamanho, int estoque,FaixaPreco faixas[], int *resp);
+
+int add_ArvProduto(Produto **raiz, int codigo, int tipo, int cabelo,int situacao, int tamanho, int estoque,FaixaPreco faixas[]);
+
+Produto* buscarProduto(Produto *raiz, int codigo);
+
+Produto* removerProduto(Produto *raiz, int codigo);
+
+int remove_produto_arv(Produto **raiz, int codigo);
+
+void imprimir_produto(Produto *p);
+
+void imprimir_produtos(Produto *raiz);
+
+void liberar_produtos(Produto *raiz);
+
+NoData* criarData(int data);
+
+NoData* inserirData(NoData *raiz, int data, int *resp);
+
+int add_ArvData(NoData **raiz, int data);
+
+NoData* buscarData(NoData *raiz, int data);
+
+NoData* removerData(NoData *raiz, int data);
+
+int remove_data_arv(NoData **raiz, int data);
+
+void imprimir_item(Item *i);
+
+void imprimir_compra(Compra *c);
+
+void imprimir_data(NoData *d);
+
+void imprimir_datas(NoData *d);
+
+void liberar_datas(NoData *raiz);
+
+float preco_unitario(Produto *p, int quantidade);
+
+int tem_estoque(Produto *p, int quantidade);
+
+void baixar_estoque(Produto *p, int quantidade);
+
+Item* criarItem(int codProduto, int quantidade, float valor);
+
+Compra* criarCompra(int codCompra);
+
+Compra* buscarCompra(NoData *d, int codCompra);
+
+int adicionar_compra(NoData *d, int codCompra);
+
+int remover_compra(NoData *d, int codCompra);
+
+Cliente* criarCliente(char cnpj[], char nome[], char endereco[], char contato[]);
+
+Cliente* inserirCliente(Cliente *raiz, char cnpj[], char nome[], char endereco[], char contato[], int *resp);
+
+int add_ArvCliente(Cliente **raiz, char cnpj[], char nome[],char endereco[], char contato[]);
+
+Cliente* buscarCliente(Cliente *raiz, char cnpj[]);
+
+Cliente* removerCliente(Cliente *raiz, char cnpj[]);
+
+int remove_cliente_arv(Cliente **raiz, char cnpj[]);
+
+void imprimir_cliente(Cliente *c);
+
+void imprimir_clientes(Cliente *raiz);
+
+void liberar_clientes(Cliente *raiz);
 
 #endif
