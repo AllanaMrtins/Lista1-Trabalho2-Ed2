@@ -6,7 +6,7 @@ void limpar_buffer(void) {
 }
 
 void ler_texto(char *rotulo, char destino[], int tam) {
-    char linha[256];   /* le a linha inteira para nao deixar '\n' no buffer */
+    char linha[256];
 
     printf("%s", rotulo);
     if (fgets(linha, sizeof(linha), stdin) != NULL) {
@@ -177,7 +177,6 @@ void menu_registrar_compra(Cliente *clientes, Produto *produtos) {
         return;
     }
 
-    /* a compra nova fica no inicio da lista da data */
     do {
         codProd = ler_int("Codigo do produto (0 para terminar): ");
         if (codProd != 0) {
