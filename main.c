@@ -292,20 +292,47 @@ int main(void) {
         limpar_buffer();
 
         switch (opcao) {
-            case 1:  menu_cadastrar_produto(&produtos);      break;
-            case 2:  menu_buscar_produto(produtos);          break;
-            case 3:  menu_remover_produto(&produtos);        break;
-            case 4:  imprimir_produtos(produtos);            break;
-            case 5:  menu_cadastrar_cliente(&clientes);      break;
-            case 6:  menu_buscar_cliente(clientes);          break;
-            case 7:  menu_remover_cliente(&clientes);        break;
-            case 8:  imprimir_clientes(clientes);            break;
-            case 9:  menu_registrar_compra(clientes, produtos); break;
-            case 10: menu_buscar_data(clientes);             break;
-            case 11: menu_remover_data(clientes);            break;
-            case 12: menu_listar_compras(clientes);          break;
-            case 13: menu_remover_compra(clientes);          break;
-            case 0:  break;
+            case 1:  
+                menu_cadastrar_produto(&produtos);      
+                break;
+            case 2: 
+                 menu_buscar_produto(produtos);          
+                 break;
+            case 3:  
+                menu_remover_produto(&produtos);        
+                break;
+            case 4:  
+                imprimir_produtos(produtos);            
+                break;
+            case 5:  
+                menu_cadastrar_cliente(&clientes);      
+                break;
+            case 6:  
+                menu_buscar_cliente(clientes);          
+                break;
+            case 7:  
+                menu_remover_cliente(&clientes);        
+                break;
+            case 8:  
+                imprimir_clientes(clientes);            
+                break;
+            case 9:  
+                menu_registrar_compra(clientes, produtos); 
+                break;
+            case 10: 
+                menu_buscar_data(clientes);             
+                break;
+            case 11: 
+                menu_remover_data(clientes);            
+                break;
+            case 12: 
+                menu_listar_compras(clientes);          
+                break;
+            case 13: 
+                menu_remover_compra(clientes);          
+                break;
+            case 0:  
+                break;
             default: printf("Opcao invalida.\n");
         }
     } while (opcao != 0);

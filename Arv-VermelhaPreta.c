@@ -105,8 +105,6 @@ Nobase* corrigirInsercao(Nobase *raiz){
     return raiz;
 }
 
-/* ================= PRODUTO ================= */
-
 Produto* criarProduto(int codigo, int tipo, int cabelo, int situacao,int tamanho, int estoque, FaixaPreco faixas[]){
     int i;
     Produto *novo = (Produto*)malloc(sizeof(Produto));
@@ -263,7 +261,6 @@ void liberar_produtos(Produto *raiz) {
     }
 }
 
-/* Escolhe a faixa de maior qtdMIN que ainda seja <= quantidade */
 float preco_unitario(Produto *p, int quantidade) {
     float preco = 0;
     int melhor = -1, i;
@@ -288,8 +285,6 @@ int tem_estoque(Produto *p, int quantidade) {
 void baixar_estoque(Produto *p, int quantidade) {
     p->estoque = p->estoque - quantidade;
 }
-
-/* ================= ITENS ================= */
 
 Item* criarItem(int codProduto, int quantidade, float valor) {
     Item *novo = (Item*) malloc(sizeof(Item));
@@ -340,8 +335,6 @@ void liberar_itens(Item *i){
     }
 }
 
-/* ================= COMPRAS ================= */
-
 Compra* criarCompra(int codCompra) {
     Compra *nova = (Compra*) malloc(sizeof(Compra));
 
@@ -364,7 +357,6 @@ Compra* buscarCompra(NoData *d, int codCompra) {
     return aux;
 }
 
-/* Insere uma compra (sem itens) no inicio da lista da data */
 int adicionar_compra(NoData *d, int codCompra) {
     int status = SUCESSO;
     Compra *nova;
@@ -429,8 +421,6 @@ void liberar_compras(Compra *c) {
         c = prox;
     }
 }
-
-/* ================= DATA ================= */
 
 NoData* criarData(int data){
     NoData *novo = (NoData*)malloc(sizeof(NoData));
@@ -566,8 +556,6 @@ void liberar_datas(NoData *raiz) {
         free(raiz);
     }
 }
-
-/* ================= CLIENTE ================= */
 
 Cliente* criarCliente(char cnpj[], char nome[], char endereco[], char contato[]) {
     Cliente *novo = (Cliente*) malloc(sizeof(Cliente));
