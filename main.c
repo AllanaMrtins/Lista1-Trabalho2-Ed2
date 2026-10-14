@@ -51,11 +51,11 @@ void menu_cadastrar_produto(Produto **raiz) {
     FaixaPreco faixas[QTD_FAIXAS];
 
     printf("\n CADASTRAR PRODUTO \n");
-    cod     = ler_int("Codigo: ");
-    tipo    = ler_int("Tipo: ");
-    cabelo  = ler_int("Cabelo: ");
-    sit     = ler_int("Situacao: ");
-    tam     = ler_int("Tamanho: ");
+    cod = ler_int("Codigo: ");
+    tipo = ler_int("Tipo: ");
+    cabelo = ler_int("Cabelo: ");
+    sit = ler_int("Situacao: ");
+    tam = ler_int("Tamanho: ");
     estoque = ler_int("Estoque: ");
 
     for (i = 0; i < QTD_FAIXAS; i++) {
