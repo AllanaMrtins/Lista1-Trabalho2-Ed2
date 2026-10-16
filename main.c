@@ -42,6 +42,7 @@ void exibir_menu() {
     printf("11  - Remover data de compra de um cliente\n");
     printf("12  - Listar compras de um cliente\n");
     printf("13  - Remover compra de um cliente\n");
+    printf("14 - Executar experimento com CNPJs\n");
     printf(" 0  - Sair\n");
     printf("Opcao: ");
 }
@@ -330,6 +331,9 @@ int main(void) {
                 break;
             case 13: 
                 menu_remover_compra(clientes);          
+                break;
+            case 14:
+                menu_experimento();
                 break;
             case 0:  
                 break;

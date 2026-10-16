@@ -17,6 +17,10 @@
 #define ERRO_ESTOQUE       7
 #define ERRO_COMPRAS      8
 
+#define QTD_CNPJ 100
+#define QTD_BUSCA 10
+#define QTD_CASOS 4
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -172,5 +176,55 @@ void imprimir_cliente(Cliente *c);
 void imprimir_clientes(Cliente *raiz);
 
 void liberar_clientes(Cliente *raiz);
+
+
+//funções do experimento
+
+int calcular_digito(int digitos[], int quantidade);
+
+void formatar_cnpj(int raiz, char cnpj[]);
+
+int gerar_raiz();
+
+int raiz_existe(int raizes[], int qtd, int valor);
+
+void ordenar_raizes(int raizes[]);
+
+void gerar_cnpjs(char cnpjs[][19], int raizes[]);
+
+void gerar_cnpj_inexistente(int raizes[], char cnpj[]);
+
+void embaralhar(int vetor[], int qtd);
+
+void escolher_buscas(int escolhidos[]);
+
+void ordem_crescente(int ordem[]);
+
+void ordem_decrescente(int ordem[]);
+
+void ordem_aleatoria(int ordem[]);
+
+void ordem_meio_primeiro(int ordem[]);
+
+void montar_ordens(int ordens[][QTD_CNPJ]);
+
+int inserir_clientes(Cliente **raiz, char cnpjs[][19], int ordem[]);
+
+Cliente *buscar_com_passos(Cliente *raiz, char cnpj[], int *passos);
+
+int contar_passos(Cliente *raiz, char cnpj[], int *encontrou);
+int altura(Nobase *raiz);
+
+float calcular_media(int valores[], int qtd);
+
+int calcular_maximo(int valores[], int qtd);
+
+void executar_caso(int caso, char cnpjs[][19], int ordem[],int escolhidos[], char inexistentes[], int passos[],
+int *passosInex, int *alturaArvore);
+
+void imprimir_resultados(char cnpjs[][19], int escolhidos[],int passos[][QTD_BUSCA], char inexistente[],
+int passosInex[], int alturas[]);
+
+void menu_experimento();
 
 #endif
