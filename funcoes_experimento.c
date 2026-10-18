@@ -404,6 +404,4 @@ void menu_experimento() {
     imprimir_resultados(
         cnpjs, escolhidos, passos, inexistente,
         passosInex, alturas);
-
-    return 0;
 }
