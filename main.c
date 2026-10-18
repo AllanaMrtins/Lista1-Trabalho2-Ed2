@@ -151,73 +151,86 @@ void menu_remover_cliente(Cliente **raiz) {
         printf("Cliente nao encontrado.\n");
 }
 
-void menu_registrar_compra(Cliente *clientes, Produto *produtos) {
-    char cnpj[19];
-    Cliente *cli;
-    NoData *d;
-    Produto *prod;
-    int data, codCompra, codProd, qtd, resp;
-    float valor;
+void registrar_item(Compra *compra, Produto *produtos, int codProduto) {
+    Produto *produto = buscarProduto(produtos, codProduto);
+    int quantidade;
+    float valorItem;
 
-    ler_texto("CNPJ do cliente: ", cnpj, sizeof(cnpj));
-    cli = buscarCliente(clientes, cnpj);
-    if (cli == NULL) {
-        printf("Cliente nao encontrado.\n");
-        return;
-    }
+    if (produto == NULL) {
+        printf("Produto nao encontrado.\n");
+    } else {
+        quantidade = ler_int("Quantidade: ");
 
-    data = ler_int("Data (aaaammdd): ");
-    d = buscarData(cli->raizCompras, data);
-    if (d == NULL) {
-        add_ArvData(&cli->raizCompras, data);
-        d = buscarData(cli->raizCompras, data);
-    }
-    if (d == NULL) {
-        printf("Falha ao criar a data (memoria).\n");
-        return;
-    }
+        if (!tem_estoque(produto, quantidade)) {
+            printf("Quantidade invalida ou estoque insuficiente.\n");
+        } else {
+            valorItem = preco_unitario(produto, quantidade) * quantidade;
 
-    codCompra = ler_int("Codigo da compra: ");
-    resp = adicionar_compra(d, codCompra);
-    if (resp == ERRO_REPETIDO) {
-        printf("Codigo de compra ja existe nessa data.\n");
-        return;
-    }
-    if (resp != SUCESSO) {
-        printf("Falha ao registrar a compra.\n");
-        return;
-    }
-
-    do {
-        codProd = ler_int("Codigo do produto (0 para terminar): ");
-        if (codProd != 0) {
-            prod = buscarProduto(produtos, codProd);
-            if (prod == NULL) {
-                printf("Produto nao encontrado.\n");
+            if (adicionar_item(compra, produto->codigo, quantidade, valorItem) == SUCESSO) {
+                baixar_estoque(produto, quantidade);
+                printf("Item adicionado.\n");
             } else {
-                qtd = ler_int("Quantidade: ");
-                if (!tem_estoque(prod, qtd)) {
-                    printf("Quantidade invalida ou estoque insuficiente.\n");
-                } else {
-                    valor = preco_unitario(prod, qtd) * qtd;
-                    resp = adicionar_item(d->compras, prod->codigo, qtd, valor);
-                    if (resp == SUCESSO) {
-                        baixar_estoque(prod, qtd);
-                        printf("Item adicionado.\n");
-                    } else {
-                        printf("Falha ao adicionar item.\n");
-                    }
-                }
+                printf("Falha ao adicionar item.\n");
             }
         }
-    } while (codProd != 0);
+    }
+}
 
-    if (d->compras->itens == NULL) {
-        printf("Compra sem itens descartada.\n");
-        remover_compra(d, codCompra, produtos);
+void adicionar_itens_na_compra(Compra *compra, Produto *produtos) {
+    int codProduto;
 
-        if (d->compras == NULL)
-            remove_data_arv(&cli->raizCompras, data);
+    do {
+        codProduto = ler_int("Codigo do produto (0 para terminar): ");
+        if (codProduto != 0)
+            registrar_item(compra, produtos, codProduto);
+    } while (codProduto != 0);
+}
+
+void registrar_compra_na_data(Cliente *cliente, NoData *noData, int data, Produto *produtos) {
+    int codCompra = ler_int("Codigo da compra: ");
+    int status = adicionar_compra(noData, codCompra);
+
+    if (status == ERRO_REPETIDO) {
+        printf("Codigo de compra ja existe nessa data.\n");
+    } else if (status != SUCESSO) {
+        printf("Falha ao registrar a compra.\n");
+    } else {
+        adicionar_itens_na_compra(noData->compras, produtos);
+
+        if (noData->compras->itens == NULL) {
+            printf("Compra sem itens descartada.\n");
+            remover_compra(noData, codCompra, produtos);
+
+            if (noData->compras == NULL)
+                remove_data_arv(&cliente->raizCompras, data);
+        }
+    }
+}
+
+void menu_registrar_compra(Cliente *clientes, Produto *produtos) {
+    char cnpj[19];
+    Cliente *cliente;
+    NoData *noData;
+    int data;
+
+    ler_texto("CNPJ do cliente: ", cnpj, sizeof(cnpj));
+    cliente = buscarCliente(clientes, cnpj);
+
+    if (cliente == NULL) {
+        printf("Cliente nao encontrado.\n");
+    } else {
+        data = ler_int("Data (aaaammdd): ");
+        noData = buscarData(cliente->raizCompras, data);
+
+        if (noData == NULL) {
+            add_ArvData(&cliente->raizCompras, data);
+            noData = buscarData(cliente->raizCompras, data);
+        }
+
+        if (noData == NULL)
+            printf("Falha ao criar a data (memoria).\n");
+        else
+            registrar_compra_na_data(cliente, noData, data, produtos);
     }
 }
 
