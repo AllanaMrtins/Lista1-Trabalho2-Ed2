@@ -377,9 +377,11 @@ int adicionar_compra(NoData *d, int codCompra) {
     return status;
 }
 
-int remover_compra(NoData *d, int codCompra) {
+int remover_compra(NoData *d, int codCompra, Produto *produtos) {
     int status = SUCESSO;
     Compra *atual = NULL, *anterior = NULL;
+    Item *item_atual;
+    Produto *produtoDoItem;
 
     if (d != NULL) {
         atual = d->compras;
@@ -392,6 +394,15 @@ int remover_compra(NoData *d, int codCompra) {
     if (atual == NULL) {
         status = ERRO_INEXISTENTE;
     } else {
+        item_atual = atual->itens;
+
+        while (item_atual != NULL){
+            produtoDoItem = buscarProduto(produtos, item_atual->codProduto);
+
+            if(produtoDoItem != NULL)
+                produtoDoItem->estoque += item_atual->quantidade;
+            item_atual = item_atual->prox;
+        }
         if (anterior == NULL)
             d->compras = atual->prox;
         else

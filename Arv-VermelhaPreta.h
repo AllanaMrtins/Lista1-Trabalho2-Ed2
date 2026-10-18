@@ -6,7 +6,7 @@
 
 #define QTD_TIPOS    5
 #define QTD_CABELOS  3
-#define QTD_SITACOES 4
+#define QTD_SITUACOES 4
 #define QTD_TAMANHOS 3
 #define QTD_FAIXAS   3
 
@@ -99,8 +99,6 @@ void liberar_itens(Item *i);
 
 void liberar_compras(Compra *c);
 
-float preco_unitario(Produto *p, int quantidade);
-
 int adicionar_item(Compra *compra, int codProduto, int quantidade, float valor);
 
 Produto* criarProduto(int codigo, int tipo, int cabelo, int situacao,int tamanho, int estoque, FaixaPreco faixas[]);
@@ -157,7 +155,7 @@ Compra* buscarCompra(NoData *d, int codCompra);
 
 int adicionar_compra(NoData *d, int codCompra);
 
-int remover_compra(NoData *d, int codCompra);
+int remover_compra(NoData *d, int codCompra, Produto *produtos);
 
 Cliente* criarCliente(char cnpj[], char nome[], char endereco[], char contato[]);
 
@@ -176,6 +174,8 @@ void imprimir_cliente(Cliente *c);
 void imprimir_clientes(Cliente *raiz);
 
 void liberar_clientes(Cliente *raiz);
+
+int ler_opcao(char *rotulo, int max);
 
 
 //funções do experimento

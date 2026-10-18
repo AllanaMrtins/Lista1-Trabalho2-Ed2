@@ -47,16 +47,26 @@ void exibir_menu() {
     printf("Opcao: ");
 }
 
+int ler_opcao(char *rotulo, int max) {
+    int v;
+    do {
+        v = ler_int(rotulo);
+        if (v < 0 || v >= max)
+            printf("Valor invalido. Digite de 0 a %d.\n", max - 1);
+    } while (v < 0 || v >= max);
+    return v;
+}
+
 void menu_cadastrar_produto(Produto **raiz) {
     int cod, tipo, cabelo, sit, tam, estoque, i, resp;
     FaixaPreco faixas[QTD_FAIXAS];
 
     printf("\n CADASTRAR PRODUTO \n");
-    cod = ler_int("Codigo: ");
-    tipo = ler_int("Tipo: ");
-    cabelo = ler_int("Cabelo: ");
-    sit = ler_int("Situacao: ");
-    tam = ler_int("Tamanho: ");
+    cod    = ler_int("Codigo: ");
+    tipo   = ler_opcao("Tipo (0-shampoo 1-condicionador 2-finalizador 3-mascara 4-oleo): ", QTD_TIPOS);
+    cabelo = ler_opcao("Cabelo (0-liso 1-ondulado 2-crespo): ", QTD_CABELOS);
+    sit    = ler_opcao("Situacao (0-oleoso 1-normal 2-seco 3-pos-quimica): ", QTD_SITUACOES);
+    tam    = ler_opcao("Tamanho (0-300ml 1-500ml 2-1L): ", QTD_TAMANHOS);
     estoque = ler_int("Estoque: ");
 
     for (i = 0; i < QTD_FAIXAS; i++) {
@@ -201,6 +211,14 @@ void menu_registrar_compra(Cliente *clientes, Produto *produtos) {
             }
         }
     } while (codProd != 0);
+
+    if (d->compras->itens == NULL) {
+        printf("Compra sem itens descartada.\n");
+        remover_compra(d, codCompra, produtos);
+
+        if (d->compras == NULL)
+            remove_data_arv(&cli->raizCompras, data);
+    }
 }
 
 void menu_buscar_data(Cliente *clientes) {
@@ -257,31 +275,30 @@ void menu_listar_compras(Cliente *clientes) {
         imprimir_datas(cli->raizCompras);
 }
 
-void menu_remover_compra(Cliente *clientes) {
+void menu_remover_compra(Cliente *clientes, Produto *produtos) {
     char cnpj[19];
     Cliente *cli;
     NoData *d;
 
     ler_texto("CNPJ do cliente: ", cnpj, sizeof(cnpj));
     cli = buscarCliente(clientes, cnpj);
+
     if (cli == NULL) {
         printf("Cliente nao encontrado.\n");
-        return;
-    }
+    } else {
+        d = buscarData(cli->raizCompras, ler_int("Data (aaaammdd): "));
 
-    d = buscarData(cli->raizCompras, ler_int("Data (aaaammdd): "));
-    if (d == NULL) {
-        printf("Nao ha compras nessa data.\n");
-        return;
+        if (d == NULL) {
+            printf("Nao ha compras nessa data.\n");
+        } else if (remover_compra(d, ler_int("Codigo da compra: "), produtos) == SUCESSO) {
+            printf("Compra removida e estoque devolvido.\n");
+        } else {
+            printf("Compra nao encontrada.\n");
+        }
     }
-
-    if (remover_compra(d, ler_int("Codigo da compra: ")) == SUCESSO)
-        printf("Compra removida.\n");
-    else
-        printf("Compra nao encontrada.\n");
 }
 
-int main(void) {
+int main() {
     Produto *produtos = NULL;
     Cliente *clientes = NULL;
     int opcao;
@@ -330,7 +347,7 @@ int main(void) {
                 menu_listar_compras(clientes);          
                 break;
             case 13: 
-                menu_remover_compra(clientes);          
+                menu_remover_compra(clientes, produtos);          
                 break;
             case 14:
                 menu_experimento();
